@@ -1,0 +1,56 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='user-profile.css') }}">
+{% extends 'index.html' %}
+
+
+{% block content %}
+
+    <br>
+    <div class="centered-title">
+        <h1>{% block title %} Your profile {% endblock %}</h1>
+    </div>
+    <br>
+    <div class="user-profile">
+        <div class="user-photo">
+            <!-- Додайте тег <img> для відображення фотографії профілю -->
+            <img class="user-img" src="{{ user_info[0].mainPhoto }}" alt="Profile Picture" >
+        </div>
+        <div class="user-info">
+            <h2>Profile Information</h2>
+            <p>Name: {{ user_info[0].name }}</p>
+            <p>Age: {{ user_info[0].age }}</p>
+            <p>Gender: {{ user_info[0].gender }}</p>
+            <p>Country: {{ user_info[0].country }}</p>
+            <p>Share location: {{ user_info[0].share_location }}</p>
+            
+        </div>
+        <div class="user-location">
+            {% if user_info[0].myLocation %}
+                <h2>User Location</h2>
+                <div id="map" class="user-map"></div>
+                <a href="{{ url_for('edit_user_loc') }}" class="btn btn-success">Edit location</a>
+            {% else %}
+                <p>You haven't provided location information yet.</p>
+                <a href="{{ url_for('edit_user_loc') }}" class="btn btn-success">Add location</a>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <a href="{{ url_for('edit_user') }}" class="btn btn-success">Edit profile</a>
+    
+    <!-- Включіть бібліотеку Leaflet -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet-src.js"></script>
+
+    <!-- Додайте JavaScript-код -->
+    <script>
+        // Оголосіть змінні L, map, L.tileLayer, marker
+        let map;
+        {% if user_info[0].myLocation %}
+            map = L.map('map').setView([{{ user_info[0].myLocation.coordinates[1] }}, {{ user_info[0].myLocation.coordinates[0] }}], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            var marker = L.marker([{{ user_info[0].myLocation.coordinates[1] }}, {{ user_info[0].myLocation.coordinates[0] }}]).addTo(map);
+        {% endif %}
+    </script>
+
+{% endblock %}

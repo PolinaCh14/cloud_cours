@@ -1,0 +1,61 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-title">
+    <h1>{% block title %} Place {% endblock %}</h1>
+</div>
+<form action="{{ url_for('all_place') }}" method="POST">
+    <div class="form-group">
+        <label for="mainPhoto">Find place:</label><br>
+
+        <input type="text" id="word" name="word" class="form-control"><br><br>
+    
+       <label for="check">Find by:</label><br>
+       <select id="check" name="check">
+        <option value="location" >location</option>
+        <option value="hashtag">hashtag</option>
+        </select><br><br>
+    </div>
+    <!-- <input type="submit" class="btn btn-info" value="Save"> -->
+    <div class="form-group">
+        <button type="submit" class="btn btn-info">Submit</button>
+    </div>
+</form>
+<a href="{{ url_for('find_on_map') }}" class="btn btn-success">Find on a map</a>
+{% for place in places %}
+<br>
+<div class="user-profile">
+    <div class="user-photo">
+        {% if place.photo_pot %}
+        <!-- Додайте тег <img> для відображення фотографії профілю -->
+        <img class="user-img" src="{{ place.photo_pot }}" alt="Post Picture" height="300">
+        {% endif %}
+    </div>
+    <div class="user-info">
+        <h2>Post</h2>
+        <p>Maid by: {{ place.user_name }}</p>
+        <p>Create: {{ place.str_date}}</p>
+        <p>Text: {{ place.text_p }}</p>
+        <p>Hashtag: {{ place.hashtag }}</p>
+        <p>Likes: {{ place.num_likes }}</p>
+    </div>
+    <div class="user-location">
+        <p>Place Location: {{ place.text_location }}</p>
+        
+        <a href="{{ url_for('place_on_map', latitude=place.location_p.coordinates[1], longitude=place.location_p.coordinates[0]) }}" class="btn btn-success">See on a map</a>
+        {% if place.user_name == name_us %}
+        <a href="{{ url_for('delete_us_place', place_id=place.objectId) }}" class="btn btn-success">Delete</a>
+        {% endif %}
+        {% if place.likes is none or name_us not in place.likes %}
+         <a href="{{ url_for('add_like', place_id=place.objectId) }}" class="btn btn-success">Add like</a>
+        {% else %}
+        <a type="button" class="btn btn-success" disabled>Add like</a>
+        {% endif %}
+
+    </div>
+</div>
+
+<br>
+
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<br>
+<p>Please update your location</p>
+<br>
+<br>
+<div id="map" style="height: 400px;"></div>
+
+<div class="form-group">
+    <button id="saveButton" type="submit" class="btn btn-info">Submit</button>
+</div>
+<script src="https://unpkg.com/leaflet/dist/leaflet-src.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    let map;
+    let marker;
+    let savedCoordinates = null;
+
+    function onMapClick(e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+        console.log("Clicked at: " + lat + ", " + lng);
+
+        if (marker) {
+            marker.setLatLng(e.latlng);
+        } else {
+            marker = L.marker(e.latlng).addTo(map);
+        }
+
+        // Зберегти координати для відправки на сервер
+        savedCoordinates = {lat, lng};
+    }
+
+    document.getElementById('saveButton').addEventListener('click', function() {
+    if (savedCoordinates) {
+        // Відправити координати на сервер
+        fetch('/find_on_map', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(savedCoordinates),
+        }).then(response => {
+            if (response.ok) {
+                console.log('Координати збережені до бази даних.');
+                // Перенаправити користувача на профіль після успішного збереження
+                window.location.href = '/place_on_map2';
+            } else {
+                console.error('Помилка збереження координат.');
+            }
+        }).catch(error => {
+            console.error('Помилка зв\'язку з сервером:', error);
+        });
+    } else {
+        console.error('Немає вибраних координат для збереження.');
+    }
+    });
+
+
+    // Ініціалізація карти
+    map = L.map('map').setView([51.505, -0.09], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    map.on('click', onMapClick);
+});
+
+</script>
+
+{% endblock %}

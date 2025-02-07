@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-title">
+    <h1>{% block title %} Friends {% endblock %}</h1>
+</div>
+<form action="{{ url_for('all_friends') }}" method="POST">
+    <div class="form-group">
+        <label for="mainPhoto">Find new friends:</label><br>
+
+        <input type="text" id="word" name="word" class="form-control"><br><br>
+    
+       <label for="check">Find :</label><br>
+       <select id="check" name="check">
+        <option value="users">new friends</option>
+        <option value="friends">in our friends</option>
+        </select><br><br>
+    </div>
+    <!-- <input type="submit" class="btn btn-info" value="Save"> -->
+    <div class="form-group">
+        <button type="submit" class="btn btn-info">Submit</button>
+    </div>
+</form>
+<!-- <a href="{{ url_for('find_on_map') }}" class="btn btn-success">Find on a map</a>
+-->
+{% for user in users %}
+<br> 
+<div class="user-profile">
+
+    <div class="user-info">
+        <h2>Friend</h2>
+        <p>Name: {{ user.name }}</p>
+
+    </div>
+    <div class="user-location">
+        <a href="{{ url_for('invite_user', user_name = user.name) }}" class="btn btn-success">Invite user</a>
+       
+
+    </div>
+</div>
+
+<br>
+
+{% endfor %}
+{% endblock %}

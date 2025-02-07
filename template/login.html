@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>User Login</h2>
+        <form action="/login" method="post">
+            {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
+            <label for="name">Name(loggin):</label><br>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br>
+
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/">Register here</a>.</p>
+        <p>Forget password and want to take new? <a href="/new_password">Click here</a>.</p>
+    </div>
+    
+</body>
+</html>

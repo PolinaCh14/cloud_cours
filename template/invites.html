@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-title">
+    <h1>{% block title %} Your invites {% endblock %}</h1>
+</div>
+{% for invite in invites %}
+<br> 
+<div class="user-profile">
+
+    <div class="user-info">
+        <h2>Invite for friends</h2>
+        <p>Name: {{ invite.name }}</p>
+
+    </div>
+    <div class="user-location">
+        <a href="{{ url_for('result_of_invite', user_name = invite.name, respond = "true")}}" class="btn btn-success">Accept</a>
+        <a href="{{ url_for('result_of_invite',user_name = invite.name, respond="false") }}" class="btn btn-success">Reject</a>
+       
+    </div>
+</div>
+
+<br>
+
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-title">
+    <h1>{% block title %} Friends {% endblock %}</h1>
+    <h4>Amount users who now online: {{amount}}</h4>
+</div>
+<form action="{{ url_for('all_friends') }}" method="POST">
+    <div class="form-group">
+        <label for="mainPhoto">Find new friends:</label><br>
+
+        <input type="text" id="word" name="word" class="form-control"><br><br>
+    
+       <label for="check">Find :</label><br>
+       <select id="check" name="check">
+        <option value="users">new friends</option>
+        <option value="friends">in our friends</option>
+        </select><br><br>
+    </div>
+    <!-- <input type="submit" class="btn btn-info" value="Save"> -->
+    <div class="form-group">
+        <button type="submit" class="btn btn-info">Submit</button>
+    </div>
+</form>
+<br>
+<h6>You can find your friends on a map, if they allowed to check their location</h6>
+<a href="{{ url_for('find_on_map_f') }}" class="btn btn-success">Find on a map</a>
+<br>
+{% for friend in friends %}
+<br> 
+<div class="user-profile">
+
+    <div class="user-info">
+        <h2>Friend</h2>
+        <p>Name: {{ friend.nameFriends }}</p>
+        <p>Status: {{ friend.status }}</p>
+
+    </div>
+    <div class="user-location">
+        <a href="{{url_for('delete_u_friends', friends_id=friend.objectId, friends_name=friend.nameFriends)}}" class="btn btn-success">Delete</a>
+       
+
+    </div>
+</div>
+
+<br>
+
+{% endfor %}
+{% endblock %}

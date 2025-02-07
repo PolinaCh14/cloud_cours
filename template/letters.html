@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-title">
+    <h1>{% block title %} Letters {% endblock %}</h1>
+</div>
+{% if name_us != 'ChernyshovaPolina' %}
+<h4>This option is currently unavailable, but we will add it soon </h4>
+{% else %}
+<form action="{{ url_for('sort_messages') }}" method="POST">
+    <div class="form-group">
+        <label for="status">Sort letters by status:</label><br>
+       <select id="status" name="status">
+        <option value="Advice">Advice</option>
+        <option value="Mistake">Mistake</option>
+        </select><br><br>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-info">Submit</button>
+    </div>
+</form>
+{% for letter in letters %}
+<br>
+<div class="user-profile">
+    <div class="user-info">
+        <h2>Letters</h2>
+        <p>Status: {{ letter.status }}</p>
+        <p>Message: {{ letter.message}}</p>
+    </div>
+    <div class="user-location">
+        <a href="{{ url_for('delete_message', letter_id=letter.objectId) }}" class="btn btn-success">Delete</a>
+        
+    </div>
+</div>
+
+<br>
+{% endfor %}
+{% endif %}
+{% endblock %}

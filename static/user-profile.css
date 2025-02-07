@@ -1,0 +1,42 @@
+/* styles.css */
+
+.user-profile {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* .user-info {
+    flex: 1;
+}
+
+.user-photo {
+    margin-left: 20px; /* Простір між інформацією про користувача та фото 
+} */
+.user-profile {
+    display: flex;
+    flex-direction: row-reverse; /* Змінює порядок блоків на протилежний */
+}
+
+.user-photo {
+    margin-left: 20px; /* Додає відступ зліва від фотографії */
+   
+  
+}
+.user-img{
+    height: 300px;
+    /* width: 260px; */
+}
+.user-info {
+    flex: 1; /* Займає доступне простір, який залишився після фотографії */
+}
+
+.user-location {
+    flex: 1;
+}
+
+.user-map {
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ccc;
+    margin-top: 10px; /* Простір над мапою */
+}

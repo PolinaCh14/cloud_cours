@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% block content %}
+    <br>
+    <div class="centered-title">
+        <h1>{% block title %} Your folders {% endblock %}</h1>
+    </div>
+    
+    <br>
+    <div class="row">
+        <ul>
+            <a href="{{ url_for('create_mf') }}" ><h4>Create folder</h4></a>
+            <br>
+            {% for folder in folders %}
+            {% if 'size' in folder %}
+                <a href="{{ url_for('getFileContent', folder_contents=folder.publicUrl) }}"><h2>{{ folder.name }}</h2></a>
+                <br>
+                <a href="{{ url_for('download', folder_contents=folder.publicUrl) }}" class="btn btn-success">Download</a>
+                <a href="{{ url_for('share_with', folder_contents=folder.publicUrl) }}" class="btn btn-info">Share file with</a>
+                <a href="{{ url_for('delete_f', folder_contents=folder.publicUrl) }}" class = "btn btn-danger">Delete</a>                   
+            {% else %}
+                <a href="{{ url_for('folder', folder_name=folder.publicUrl) }}"><h2>{{ folder.name }}</h2></a>
+                <a href="{{ url_for('create_f', folder_contents=folder.publicUrl) }}" class="btn btn-warning">Create folder in {{ folder.name }}</a> 
+                <a href="{{ url_for('download_file_to', folder_contents=folder.publicUrl) }}"class="btn btn-info">Download file to {{ folder.name }}</a> 
+                <a href="{{ url_for('delete_f', folder_contents=folder.publicUrl) }}" class = "btn btn-danger">Delete</a>   
+            {% endif %}
+            <hr>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

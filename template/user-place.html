@@ -1,0 +1,43 @@
+
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="centered-title">
+    <h1>{% block title %} Your Place {% endblock %}</h1>
+    <a href="{{ url_for('create_user_place') }}" class="btn btn-success">Create place</a>
+</div>
+{% for place in places %}
+<br>
+<br>
+<div class="user-profile">
+    <div class="user-photo">
+        {% if place.photo_pot %}
+        <!-- Додайте тег <img> для відображення фотографії профілю -->
+        <img class="user-img" src="{{ place.photo_pot }}" alt="Post Picture" height="300">
+        {% endif %}
+    </div>
+    <div class="user-info">
+        <h2>Post</h2>
+        <p>Maid by: {{ place.user_name }}</p>
+        <p>Create: {{ place.str_date }}</p>
+        <p>Text: {{ place.text_p }}</p>
+        <p>Hashtag: {{ place.hashtag }}</p>
+        <p>Likes: {{ place.num_likes }}</p>
+    </div>
+    <div class="user-location">
+        <p>Place Location: {{ place.text_location }}</p>
+        
+        <a href="{{ url_for('place_on_map', latitude=place.location_p.coordinates[1], longitude=place.location_p.coordinates[0]) }}" class="btn btn-success">See on a map</a>
+        {% if place.user_name == name_us %}
+        <a href="{{ url_for('delete_us_place', place_id=place.objectId) }}" class="btn btn-success">Delete</a>
+
+        {% endif %}
+
+    </div>
+</div>
+
+<br>
+
+{% endfor %}
+{% endblock %}
+

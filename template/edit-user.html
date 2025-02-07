@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<body>
+    <h1>Edit User Profile</h1>
+    <form action="{{ url_for('edit_user') }}" method="POST">
+        <div class="form-group">
+            <label for="mainPhoto">Profile Picture:</label><br>
+
+            <input type="text" id="mainPhoto" name="mainPhoto" class="form-control" value="{{ user_d[0].mainPhoto }}"><br><br>
+        
+           <label for="country">Country:</label><br>
+           <input type="text" id="country" name="country" class="form-control" value="{{ user_d[0].country }}"><br><br>
+        
+           <label for="gender">Gender:</label><br>
+           <select id="gender" name="gender">
+            <option value="male" {% if user_d and user_d[0].gender == 'male' %} selected {% endif %}>Male</option>
+            <option value="female" {% if user_d and user_d[0].gender == 'female' %} selected {% endif %}>Female</option>
+            <option value="other" {% if user_d and user_d[0].gender == 'other' %} selected {% endif %}>Other</option>
+            </select><br>
+            <label for="loc">Track your location:</label><br>
+           <select id="location" name="location">
+            <option value= false {% if user_d and user_d[0].share_location == false %} selected {% endif %}>false</option>
+            <option value= true {% if user_d and user_d[0].share_location == true %} selected {% endif %}>true</option>
+            </select><br><br>
+        </div>
+        
+        
+        <!-- <input type="submit" class="btn btn-info" value="Save"> -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-info">Submit</button>
+        </div>
+    </form>
+</body>
+{% endblock %}

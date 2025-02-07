@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% block content %}
+    <br>
+    <div class="centered-title">
+        <h1>{% block title %} File Content {% endblock %}</h1>
+    </div>
+    
+    <br>
+    {% if is_image %}
+            <!-- Якщо це зображення -->
+            <img src="{{ folders }}" alt="Image">
+    {% else %}
+            <!-- Якщо це текст -->
+            <p>{{ folders }}</p>
+    {% endif %}
+{% endblock %}

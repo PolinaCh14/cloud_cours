@@ -1,0 +1,47 @@
+{% block content %}
+    <br>
+    <div class="centered-title">
+        <h1>{% block title %} Your profile {% endblock %}</h1>
+    </div>
+    <br>
+    {% for place in places %}
+    <div class="user-profile">
+        {% if place.photo_pot %}
+        <!-- Додайте тег <img> для відображення фотографії профілю -->
+        <img class="user-img" src="{{ place.photo_pot }}" alt="Post Picture" >
+        {% endif %}
+    </div>
+    <div class="user-info">
+        <h2>Post</h2>
+        <p>Maid by: {{ place.user_name }}</p>
+        <p>Create: {{ place.created }}</p>
+        <p>Text: {{ place.text_p }}</p>
+        <p>Hashtag: {{ place.hashtag }}</p>
+    </div>
+    <div class="user-location">
+        <h2>Photo Location</h2>
+            {% if place.location_p %}
+                <h2>User Location</h2>
+                <div id="map" class="user-map"></div>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    {% endfor %}
+    <!-- Включіть бібліотеку Leaflet -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet-src.js"></script>
+    <!-- Додайте JavaScript-код -->
+    <script>
+        // Оголосіть змінні L, map, L.tileLayer, marker
+        let map;
+        {% for place in places %}
+            {% if place.location_p %}
+                map = L.map('map').setView([{{ place.location_p.coordinates[1] }}, {{ place.location_p.coordinates[0] }}], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                var marker = L.marker([{{ place.location_p.coordinates[1] }}, {{ place.location_p.coordinates[0] }}]).addTo(map);
+            {% endif %}
+        {% endfor %}
+    </script>
+{% endblock %}
